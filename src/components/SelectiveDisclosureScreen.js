@@ -9,6 +9,7 @@ import {
     Dropdown
 } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import VerifyButton from "@passbase/button/react";
 
 function SelectiveDisclosureScreen() {
@@ -19,7 +20,7 @@ function SelectiveDisclosureScreen() {
     const [firstname, setfirstname] = useState();
     const [middlename, setmiddlename] = useState();
     const [lastname, setlastname] = useState();
-    const [dob, setdob] = useState();
+    const [dob, setdob] = useState(new Date());
     const [email, setemail] = useState();
     const [mobile, setmobile] = useState();
     const [inclusion1, setinclusion1] = useState();
@@ -36,7 +37,10 @@ function SelectiveDisclosureScreen() {
     const [weight, setweight] = useState();
     const [eyecolor, seteyecolor] = useState();
     const [haircolor, sethaircolor] = useState();
-
+    const [dataset,setdataset] = useState();
+    const [checkbox1, setcheckbox1] = useState();
+    const [checkbox2, setcheckbox2] = useState();
+    
     let state = {};
 
     const referenceUserWithKey = (key) => {
@@ -44,9 +48,10 @@ function SelectiveDisclosureScreen() {
         // Make request to your backend/db and save the key to the user's profile
     }
 
-    function saveDataSet() {
-        alert(`${firstname}::${middlename}::${lastname}::${lastname}::${dob}::${email}::${mobile}::${address1}::${address2}::${city}::${stateprovince}::${country}::${zippostal}::${countrydob}::${countrycitizenship}::${height}::${weight}::${eyecolor}`);
-        /*state = {"firstname":firstname};
+    function saveDataSet(event) {
+        //check1 = { event.target.checked ? 'true' : 'false }
+        alert(`${firstname}::${middlename}::${lastname}::${lastname}::${dob}::${checkbox1}::${email}::${mobile}::${address1}::${address2}::${city}::${stateprovince}::${country}::${zippostal}::${countrydob}::${countrycitizenship}::${height}::${weight}::${eyecolor}`);
+        /*setdataset = {"firstname":firstname};
         state = {"middlename":middlename};
         state = {"lastname":lastname}
         state = {"dob":dob}
@@ -67,6 +72,24 @@ function SelectiveDisclosureScreen() {
         alert(`${JSON.stringify(state)}`)*/
     }
     
+    function handleCheckbox1(event) {
+        if(checkbox1 !== undefined) {
+            setcheckbox1(event.value)
+        }
+        else {
+            setcheckbox1('off')
+        }
+    }
+
+    function handleCheckbox2(event) {
+        if(checkbox1 !== undefined) {
+            setcheckbox2(event.value)
+        }
+        else {
+            setcheckbox2('off')
+        }
+    }
+
     return (
         <Container>
             <Row>
@@ -101,7 +124,7 @@ function SelectiveDisclosureScreen() {
                     </InputGroup>
                 </Col>
                 <Col>
-                    <DatePicker className="mb-3" placeholder="Date Of Birth"/>
+                    <DatePicker className="mb-3" placeholder="Date Of Birth" selected={dob} onChange={date => setdob(date)}/>
                 </Col>
             </Row>
             <Row>
@@ -131,7 +154,7 @@ function SelectiveDisclosureScreen() {
             <Row>
                     <Col>
                     <InputGroup className="mb-3">
-                        <InputGroup.Checkbox aria-label="inclusion" label="Select Data for Inclusion" placeholder="Select Data for Inclusion"/>
+                        <InputGroup.Checkbox aria-label="inclusion" label="Select Data for Inclusion" placeholder="Select Data for Inclusion" onChange={ (event) => {handleCheckbox1(event)} }/>
                     </InputGroup>
                     </Col>
             </Row>
@@ -143,6 +166,7 @@ function SelectiveDisclosureScreen() {
                             aria-label="address1"
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setaddress1(event.target.value) }}
+                            disabled = { checkbox1 === 'false' || checkbox1 === undefined }
                             />
                         </InputGroup>
                 </Col>
@@ -153,6 +177,7 @@ function SelectiveDisclosureScreen() {
                             aria-label="address2"
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setaddress2(event.target.value) }}
+                            disabled = { checkbox1 === 'false' || checkbox1 === undefined }
                             />
                         </InputGroup>
                 </Col>
@@ -163,6 +188,7 @@ function SelectiveDisclosureScreen() {
                             aria-label="city"
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setcity(event.target.value) }}
+                            disabled = { checkbox1 === 'false' || checkbox1 === undefined }
                             />
                         </InputGroup>
                 </Col>
@@ -173,6 +199,7 @@ function SelectiveDisclosureScreen() {
                             aria-label="stateprovince"
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setstateprovince(event.target.value) }}
+                            disabled = { checkbox1 === 'false' || checkbox1 === undefined }
                             />
                         </InputGroup>
                 </Col>
@@ -180,7 +207,7 @@ function SelectiveDisclosureScreen() {
             <Row>
                 <Col>
                 <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    <Dropdown.Toggle variant="success" id="dropdown-basic" disabled = { checkbox1 === 'false' || checkbox1 === undefined }>
                         Country
                     </Dropdown.Toggle>
 
@@ -201,6 +228,7 @@ function SelectiveDisclosureScreen() {
                             aria-label="zipcodepostalcode"
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setzippostal(event.target.value) }}
+                            disabled = { checkbox1 === 'false' || checkbox1 === undefined }
                             />
                         </InputGroup> 
                 </Col>
@@ -208,14 +236,14 @@ function SelectiveDisclosureScreen() {
             <Row>
                     <Col>
                     <InputGroup className="mb-3">
-                        <InputGroup.Checkbox aria-label="inclusion" label="Select Data for Inclusion" placeholder="Select Data for Inclusion"/>
+                        <InputGroup.Checkbox aria-label="inclusion" label="Select Data for Inclusion" placeholder="Select Data for Inclusion" onChange={ (event) => {handleCheckbox2(event)} }/>
                     </InputGroup>
                     </Col>
             </Row>
             <Row>
                     <Col>
                         <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            <Dropdown.Toggle variant="success" id="dropdown-basic"  disabled = { checkbox2 === 'false' || checkbox2 === undefined }>
                                 Country of Birth
                             </Dropdown.Toggle>
 
@@ -230,8 +258,8 @@ function SelectiveDisclosureScreen() {
                             </Dropdown>
                     </Col>
                     <Col>
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        <Dropdown >
+                            <Dropdown.Toggle variant="success" id="dropdown-basic" disabled = { checkbox2 === 'false' || checkbox2 === undefined }>
                                 Country of Current citizenship
                             </Dropdown.Toggle>
 
@@ -254,6 +282,7 @@ function SelectiveDisclosureScreen() {
                             aria-label="height"
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setheight(event.target.value) }}
+                            disabled = { checkbox2 === 'false' || checkbox2 === undefined }
                             />
                         </InputGroup> 
                 </Col>
@@ -264,6 +293,7 @@ function SelectiveDisclosureScreen() {
                             aria-label="weight"
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setweight(event.target.value) }}
+                            disabled = { checkbox2 === 'false' || checkbox2 === undefined }
                             />
                         </InputGroup> 
                 </Col>
@@ -271,8 +301,8 @@ function SelectiveDisclosureScreen() {
             </Row>
             <Row>
             <Col>
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        <Dropdown >
+                            <Dropdown.Toggle variant="success" id="dropdown-basic" disabled = { checkbox2 === 'false' || checkbox2 === undefined }>
                                 Eye Color
                             </Dropdown.Toggle>
 
@@ -283,8 +313,8 @@ function SelectiveDisclosureScreen() {
                         </Dropdown>
                 </Col>
                 <Col>
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        <Dropdown >
+                            <Dropdown.Toggle variant="success" id="dropdown-basic" disabled = { checkbox2 === 'false' || checkbox2 === undefined }>
                                 Hair Color
                             </Dropdown.Toggle>
 
@@ -323,6 +353,5 @@ function SelectiveDisclosureScreen() {
     );
 
   }
-  
   
   export default SelectiveDisclosureScreen;
