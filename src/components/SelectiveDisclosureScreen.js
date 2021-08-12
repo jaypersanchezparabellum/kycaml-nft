@@ -40,7 +40,7 @@ function SelectiveDisclosureScreen() {
     const [dataset,setdataset] = useState();
     const [checkbox1, setcheckbox1] = useState();
     const [checkbox2, setcheckbox2] = useState();
-    
+    const [encodedmetadata, setencodedmetadata] = useState();
     let state = {};
 
     const referenceUserWithKey = (key) => {
@@ -50,7 +50,14 @@ function SelectiveDisclosureScreen() {
 
     function saveDataSet(event) {
         //check1 = { event.target.checked ? 'true' : 'false }
-        alert(`${firstname}::${middlename}::${lastname}::${lastname}::${dob}::${checkbox1}::${email}::${mobile}::${address1}::${address2}::${city}::${stateprovince}::${country}::${zippostal}::${countrydob}::${countrycitizenship}::${height}::${weight}::${eyecolor}`);
+        //alert(`${firstname}::${middlename}::${lastname}::${lastname}::${dob}::${checkbox1}::${email}::${mobile}::${address1}::${address2}::${city}::${stateprovince}::${country}::${zippostal}::${countrydob}::${countrycitizenship}::${height}::${weight}::${eyecolor}`);
+        //encode meta data in base64
+        // Define the string
+        var plainText = (`${firstname}::${middlename}::${lastname}::${lastname}::${dob}::${checkbox1}::${email}::${mobile}::${address1}::${address2}::${city}::${stateprovince}::${country}::${zippostal}::${countrydob}::${countrycitizenship}::${height}::${weight}::${eyecolor}`);
+
+        // Encode the String
+        var encodedString = Buffer.from(plainText, 'base64')
+        setencodedmetadata(encodedString)
         /*setdataset = {"firstname":firstname};
         state = {"middlename":middlename};
         state = {"lastname":lastname}
@@ -313,8 +320,8 @@ function SelectiveDisclosureScreen() {
                         </Dropdown>
                 </Col>
                 <Col>
-                        <Dropdown >
-                            <Dropdown.Toggle variant="success" id="dropdown-basic" disabled = { checkbox2 === 'false' || checkbox2 === undefined }>
+                        <Dropdown disabled = { checkbox2 === 'false' || checkbox2 === undefined }>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic" >
                                 Hair Color
                             </Dropdown.Toggle>
 
