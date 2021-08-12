@@ -1,4 +1,5 @@
 import React, { Component, useState, StyleSheet } from 'react';
+import fs from 'fs'
 import { 
     Container, 
     Row, 
@@ -11,11 +12,44 @@ import {
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import VerifyButton from "@passbase/button/react";
+const crypto = require("crypto");
+//const fs = require("fs");
+
 
 function SelectiveDisclosureScreen() {
 
+    const pk = `-----BEGIN RSA PRIVATE KEY-----
+    Proc-Type: 4,ENCRYPTED
+    DEK-Info: DES-EDE3-CBC,1BA03E7DD91084B7
     
+    Kan8UIv9mR/PLHFt9V4yyTwDW7IiRam4fVqdB/MF+zvBZrRD727FpmT1A7GfK5sQ
+    2bc1+UPWl1TwspSC8vFwF0bk5i1Z3E6iLGPToql0/wMtmlvBT3lUQB7eMFRO9mWL
+    AN2sh80gbKiTnECsWK0Tm1MtUr1o46ioVMaqat9NqtLTOTwe2a69XU/3flXrSqyI
+    qH0u2zoWGsi7JSDjjC9a9Xh7Cr1yvucm8yyQe0kaf8Lrc8J4Ajqwy6XrzTXqD7BU
+    c9f/bOjPrXVx92wrJ7mN1Yi3VEHSlhzcoTQd0/psWOHT4cob7Ws5GgACbjHEvp6r
+    42HiarKnV06AjnpQnqQt6nrNiZ4G2wMhrckW5Nyt99qJ48QGpcf2xL+qKSVuY/Ut
+    02vVm9VgXTsH6ZmsuwcIAi98nKdQjw892mwmcgLM0ZMuGV6e2pgY7S6HKdzIZkfN
+    vf+0NVnDGem+/3nIct2RLaVnNNGty7QXPTKhqodEfCZGsy0CGCVlH1s7pfxQANED
+    EoKoH1b7NnDKKnmCj2NrkwImjvSN1zpT5c9+Z4FTb3uJvEuZYue5hzyg6IwGMZql
+    vrYDIBdjtcz7+BlLCR9a2RF+kp7gti+hYwOr9J66dOTxIk2529zrA5gJ2C/F9awF
+    8GBzHl8h6OSvd32hNJdZ8qCBerdoqMXadNiYEkYKaAcF2w7JdYgjCMCBp6E5HyFf
+    BbaHgG5jt383x2WV0S3+ewEXpkZv6Fr7vqmaFxKcoFaMobeeMAYBlgMn+T7wmGDn
+    a9d8COcXlbAs4Zx84C5+I4DoOrd59MKIxcPHOEPduzcpdcnJyVF9gcohvCfU/FqA
+    XBXzZkegkj/ra+9iE58DkckHZfARwHJROSvQKbF0h1Hxvxmqm7reyiRTcJrQ4ddb
+    mantqdG3myqiB6Umh0KF4Fqku5l9yv6Qz3dJmifwregL2kp5eoTi+dCsO7d9KMMS
+    EOW/OZqv5g6jwRM2dkCYqyI0WGX5C7zAFcU+1y1gVoe+1XYaKGpC6p2CIxhrTd/1
+    6aCsQ+SN+D1j8LNaOgCNiF3QFb7mkXeEhZcelpdnrUSFmDcIGbViD2YNzV9NON7c
+    KT59V6QxoPUpsfB3vGS2yRofhrEcoKK3Vysx9yHZL55IEPZPoYcleGu+1idgXXgc
+    n11B+57EDVpV3cPRm73PLbLFNxz+yo1DwBj07EN66ry0U437Pj6M1iAgEP09qh5t
+    RY5o5txGsCm0mshDjqrK+y0oARSyEk7510MReaJou9Te0mKMDQDhVEKewpv1ov9y
+    giJRUWIovByXSLvkY763wQ7BVndYu/oNpx3XoSPJN1Epd2L7FevP7bXVcUptdU5o
+    nXXJbb9GPsBkio52awFusEHmNXpMvbWR3w/zD3CuW+f0beN6sEagSSh4mpkCJBp1
+    +IwIS9ohpdoI8JJo8x+5k6KEfFe/z4kzCVURydKzOvaw1Pvifn8FNAEdsyd7relH
+    MERO9rkVlz/qPEze0hCiuunl5UfI1BaBb826156HVLrT1eOYA5KSQlm1B7bKjYaP
+    AbS1c+8y3+bilHtnA2Wpm0ioY66gYPVe1JhX41tqUkuu5rI2ymS8r2e9UERIpLsh
+    -----END RSA PRIVATE KEY-----`
     
+
     // Declare a new state variable, which we'll call "count"
     const [firstname, setfirstname] = useState();
     const [middlename, setmiddlename] = useState();
@@ -41,6 +75,7 @@ function SelectiveDisclosureScreen() {
     const [checkbox1, setcheckbox1] = useState();
     const [checkbox2, setcheckbox2] = useState();
     const [encodedmetadata, setencodedmetadata] = useState();
+    
     let state = {};
 
     const referenceUserWithKey = (key) => {
@@ -49,34 +84,33 @@ function SelectiveDisclosureScreen() {
     }
 
     function saveDataSet(event) {
-        //check1 = { event.target.checked ? 'true' : 'false }
-        //alert(`${firstname}::${middlename}::${lastname}::${lastname}::${dob}::${checkbox1}::${email}::${mobile}::${address1}::${address2}::${city}::${stateprovince}::${country}::${zippostal}::${countrydob}::${countrycitizenship}::${height}::${weight}::${eyecolor}`);
-        //encode meta data in base64
-        // Define the string
-        var plainText = (`${firstname}::${middlename}::${lastname}::${lastname}::${dob}::${checkbox1}::${email}::${mobile}::${address1}::${address2}::${city}::${stateprovince}::${country}::${zippostal}::${countrydob}::${countrycitizenship}::${height}::${weight}::${eyecolor}`);
-
-        // Encode the String
-        var encodedString = Buffer.from(plainText, 'base64')
-        setencodedmetadata(encodedString)
-        /*setdataset = {"firstname":firstname};
-        state = {"middlename":middlename};
-        state = {"lastname":lastname}
-        state = {"dob":dob}
-        state = {"email":email}
-        state = {"mobile":mobile}
-        state = {"address1":address1}
-        state = {"address2":address2}
-        state = {"city":city}
-        state = {"stateprovince":stateprovince}
-        state = {"country":country}
-        state = {"zippostal":zippostal}
-        state = {"countrydob":countrydob}
-        state = {"countrycitizenship":countrycitizenship}
-        state = {"height":height}
-        state = {"weight":weight}
-        state = {"eyecolor":eyecolor}
-        state = {"haircolor":haircolor}
-        alert(`${JSON.stringify(state)}`)*/
+        //var plainText = (`${firstname}::${middlename}::${lastname}::${lastname}::${dob}::${checkbox1}::${email}::${mobile}::${address1}::${address2}::${city}::${stateprovince}::${country}::${zippostal}::${countrydob}::${countrycitizenship}::${height}::${weight}::${eyecolor}`);
+        const metadata = {
+            "firstname":firstname,
+            "middlename":middlename,
+            "lastname":lastname,
+            "dob":dob,
+            "selectedinclusion1":checkbox1,
+            "email":email,
+            "mobile":mobile,
+            "address1":address1,
+            "address2":address2,
+            "city":city,
+            "stateprovince":stateprovince,
+            "country":country,
+            "zippostal":zippostal,
+            "countrydob":countrydob,
+            "selectedinclusion2":checkbox2,
+            "countrycitizenship":countrycitizenship,
+            "height":height,
+            "weight":weight,
+            "eyecolor":eyecolor,
+            "haircolor":haircolor
+        }
+        //encode 
+        //const pkey = crypto.createPrivateKey({format: 'pem', key: pk});
+        //const encrypted_metadata = crypto.privateEncrypt(pk, Buffer.from(JSON.stringify(metadata))).toString('base64');
+        alert(`${JSON.stringify(metadata)}`);
     }
     
     function handleCheckbox1(event) {
@@ -344,11 +378,14 @@ function SelectiveDisclosureScreen() {
                         onSubmitted={(identityAccessKey) => {
                             referenceUserWithKey(identityAccessKey)
                         }}
-                        onFinish={(identityAccessKey) => {}}
+                        onFinish={(identityAccessKey) => {
+                            // Open new window for end user to prevent duplicate verifications
+                            window.location.href =("https://passbase.com/")
+                        }}
                         onError={(errorCode) => {}}
                         onStart={() => {}}
                         prefillAttributes={{
-                            email: {firstname}
+                            email: {email}
                         }}
                     />
                 </Col>
