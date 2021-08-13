@@ -1,4 +1,4 @@
-import React, { Component, useState, StyleSheet } from 'react';
+import React, { Component, useState, StyleSheet, Form } from 'react';
 import fs from 'fs'
 import { 
     Container, 
@@ -248,7 +248,10 @@ function SelectiveDisclosureScreen() {
             <Row>
                 <Col>
                 <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic" disabled = { checkbox1 === 'false' || checkbox1 === undefined }>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic"  disabled = { checkbox1 === 'false' || checkbox1 === undefined }
+                                  value={(event) => alert(event.target.value)} 
+                                  //onChange={ (evernt) => alert(event.target.value) } 
+                    >
                         Country
                     </Dropdown.Toggle>
 
@@ -354,8 +357,8 @@ function SelectiveDisclosureScreen() {
                         </Dropdown>
                 </Col>
                 <Col>
-                        <Dropdown disabled = { checkbox2 === 'false' || checkbox2 === undefined }>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic" >
+                        <Dropdown disabled = { checkbox2 === 'false' || checkbox2 === undefined } >
+                            <Dropdown.Toggle variant="success" id="dropdown-basic" onSelect={function(evt){console.log(evt)}}>
                                 Hair Color
                             </Dropdown.Toggle>
 
@@ -368,6 +371,7 @@ function SelectiveDisclosureScreen() {
                 </Col>
 
             </Row>
+
             <Row>
                 <Col>
                     <Button variant="primary" color="accent" onClick={saveDataSet} >Save Data Set</Button>
