@@ -12,8 +12,9 @@ import {
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import VerifyButton from "@passbase/button/react";
-const crypto = require("crypto");
-//const fs = require("fs");
+import sha256 from 'crypto-js/sha256';
+import hmacSHA512 from 'crypto-js/hmac-sha512';
+import Base64 from 'crypto-js/enc-base64';
 
 
 function SelectiveDisclosureScreen() {
@@ -75,6 +76,7 @@ function SelectiveDisclosureScreen() {
     const [checkbox1, setcheckbox1] = useState();
     const [checkbox2, setcheckbox2] = useState();
     const [encodedmetadata, setencodedmetadata] = useState();
+    const [hmacdigest, sethmacdigest] = useState();
     
     let state = {};
 
@@ -107,10 +109,10 @@ function SelectiveDisclosureScreen() {
             "eyecolor":eyecolor,
             "haircolor":haircolor
         }
-        //encode 
-        //const pkey = crypto.createPrivateKey({format: 'pem', key: pk});
-        //const encrypted_metadata = crypto.privateEncrypt(pk, Buffer.from(JSON.stringify(metadata))).toString('base64');
-        alert(`${JSON.stringify(metadata)}`);
+        const hashDigest = sha256(metadata);
+        const hmac_digest = Base64.stringify(hmacSHA512(hashDigest, pk));
+        sethmacdigest(hmac_digest);
+        //alert(hmacDigest)
     }
     
     function handleCheckbox1(event) {
@@ -123,7 +125,7 @@ function SelectiveDisclosureScreen() {
     }
 
     function handleCheckbox2(event) {
-        if(checkbox1 !== undefined) {
+        if(checkbox2 !== undefined) {
             setcheckbox2(event.value)
         }
         else {
@@ -247,23 +249,15 @@ function SelectiveDisclosureScreen() {
             </Row>
             <Row>
                 <Col>
-                <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic"  disabled = { checkbox1 === 'false' || checkbox1 === undefined }
-                                  value={(event) => alert(event.target.value)} 
-                                  //onChange={ (evernt) => alert(event.target.value) } 
-                    >
-                        Country
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">Canada</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">India</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">Pakistan</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">Philippines</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">Serbia</Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">United States</Dropdown.Item>
-                    </Dropdown.Menu>
-                    </Dropdown>
+                        <InputGroup className="mb-3">
+                            <FormControl
+                            placeholder="country"
+                            aria-label="country"
+                            aria-describedby="basic-addon2"
+                            onChange={ (event) => { setcountry(event.target.value) }}
+                            disabled = { checkbox1 === 'false' || checkbox1 === undefined }
+                            />
+                        </InputGroup>
                 </Col>
                 <Col>
                         <InputGroup className="mb-3">
@@ -286,36 +280,26 @@ function SelectiveDisclosureScreen() {
             </Row>
             <Row>
                     <Col>
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic"  disabled = { checkbox2 === 'false' || checkbox2 === undefined }>
-                                Country of Birth
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">Canada</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">India</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Pakistan</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Philippines</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Serbia</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">United States</Dropdown.Item>
-                            </Dropdown.Menu>
-                            </Dropdown>
+                        <InputGroup className="mb-3">
+                            <FormControl
+                            placeholder="Country of Birth"
+                            aria-label="countrydob"
+                            aria-describedby="basic-addon2"
+                            onChange={ (event) => { setcountrydob(event.target.value) }}
+                            disabled = { checkbox2 === 'false' || checkbox2 === undefined }
+                            />
+                        </InputGroup>
                     </Col>
                     <Col>
-                        <Dropdown >
-                            <Dropdown.Toggle variant="success" id="dropdown-basic" disabled = { checkbox2 === 'false' || checkbox2 === undefined }>
-                                Country of Current citizenship
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">Canada</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">India</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Pakistan</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Philippines</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Serbia</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">United States</Dropdown.Item>
-                            </Dropdown.Menu>
-                            </Dropdown>
+                        <InputGroup className="mb-3">
+                            <FormControl
+                            placeholder="Current of Citizenship"
+                            aria-label="countrycitizenship"
+                            aria-describedby="basic-addon2"
+                            onChange={ (event) => { setcountrycitizenship(event.target.value) }}
+                            disabled = { checkbox2 === 'false' || checkbox2 === undefined }
+                            />
+                        </InputGroup>
                     </Col>
             </Row>
             <Row>
@@ -344,30 +328,27 @@ function SelectiveDisclosureScreen() {
                 
             </Row>
             <Row>
-            <Col>
-                        <Dropdown >
-                            <Dropdown.Toggle variant="success" id="dropdown-basic" disabled = { checkbox2 === 'false' || checkbox2 === undefined }>
-                                Eye Color
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">Black</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Brown</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
+                <Col>
+                        <InputGroup className="mb-3">
+                            <FormControl
+                            placeholder="Eye Color"
+                            aria-label="eyecolor"
+                            aria-describedby="basic-addon2"
+                            onChange={ (event) => { seteyecolor(event.target.value) }}
+                            disabled = { checkbox2 === 'false' || checkbox2 === undefined }
+                            />
+                        </InputGroup>
                 </Col>
                 <Col>
-                        <Dropdown disabled = { checkbox2 === 'false' || checkbox2 === undefined } >
-                            <Dropdown.Toggle variant="success" id="dropdown-basic" onSelect={function(evt){console.log(evt)}}>
-                                Hair Color
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">Black</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Brown</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Blonde</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
+                        <InputGroup className="mb-3">
+                            <FormControl
+                            placeholder="Hair Color"
+                            aria-label="haircolor"
+                            aria-describedby="basic-addon2"
+                            onChange={ (event) => { sethaircolor(event.target.value) }}
+                            disabled = { checkbox2 === 'false' || checkbox2 === undefined }
+                            />
+                        </InputGroup>
                 </Col>
 
             </Row>
@@ -391,6 +372,9 @@ function SelectiveDisclosureScreen() {
                         prefillAttributes={{
                             email: {email}
                         }}
+                        metaData={
+                            hmacdigest
+                        }
                     />
                 </Col>
             </Row>
