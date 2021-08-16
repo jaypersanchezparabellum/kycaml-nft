@@ -11,6 +11,7 @@ import {
 } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import {PassbaseClient, PassbaseConfiguration} from "@passbase/node";
 import VerifyButton from "@passbase/button/react";
 import sha256 from 'crypto-js/sha256';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
@@ -19,6 +20,8 @@ import Base64 from 'crypto-js/enc-base64';
 
 function SelectiveDisclosureScreen() {
 
+    const secretkey = "sF9N2HwfTCXdYMNwA3i7FYdS06xa0iX1AF8o72tytCFLyolvGxU5JGkkhWatBqDFHRUbaBREMghQVYZZyZVOdY9OnTkUFNvplArVjBDPORwa2tJLNco10zZ24TQa4go5"
+    const apikey = "TBFIEVmCNIcZ7605NBsoe9kVbM21Sdss6fXlztkkltvZIse6WA6u3NEUfXJXU3CG"
     const pk = `-----BEGIN RSA PRIVATE KEY-----
     Proc-Type: 4,ENCRYPTED
     DEK-Info: DES-EDE3-CBC,1BA03E7DD91084B7
@@ -86,7 +89,6 @@ function SelectiveDisclosureScreen() {
     }
 
     function saveDataSet(event) {
-        //var plainText = (`${firstname}::${middlename}::${lastname}::${lastname}::${dob}::${checkbox1}::${email}::${mobile}::${address1}::${address2}::${city}::${stateprovince}::${country}::${zippostal}::${countrydob}::${countrycitizenship}::${height}::${weight}::${eyecolor}`);
         const metadata = {
             "firstname":firstname,
             "middlename":middlename,
@@ -112,7 +114,6 @@ function SelectiveDisclosureScreen() {
         const hashDigest = sha256(metadata);
         const hmac_digest = Base64.stringify(hmacSHA512(hashDigest, pk));
         sethmacdigest(hmac_digest);
-        //alert(hmacDigest)
     }
     
     function handleCheckbox1(event) {
