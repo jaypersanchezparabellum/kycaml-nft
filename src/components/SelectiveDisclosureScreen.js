@@ -11,7 +11,7 @@ import {
 } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import {PassbaseClient, PassbaseConfiguration} from "@passbase/node";
+//import {PassbaseClient, PassbaseConfiguration} from "@passbase/node";
 import VerifyButton from "@passbase/button/react";
 import sha256 from 'crypto-js/sha256';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
@@ -84,8 +84,9 @@ function SelectiveDisclosureScreen() {
     let state = {};
 
     const referenceUserWithKey = (key) => {
-        console.log(key)
-        // Make request to your backend/db and save the key to the user's profile
+        console.log(`UUID of Passbase verification ${key}`)
+        // This UUID from Passbase can be used to query, via Passbase API, for status of the verfication which must be done manually.  
+        
     }
 
     function saveDataSet(event) {
@@ -111,9 +112,12 @@ function SelectiveDisclosureScreen() {
             "eyecolor":eyecolor,
             "haircolor":haircolor
         }
+        console.log(`plain text metadata ${JSON.stringify(metadata)}`)
         const hashDigest = sha256(metadata);
         const hmac_digest = Base64.stringify(hmacSHA512(hashDigest, pk));
+        console.log(`encrypted metadata ${hmac_digest}`);
         sethmacdigest(hmac_digest);
+        
     }
     
     function handleCheckbox1(event) {
