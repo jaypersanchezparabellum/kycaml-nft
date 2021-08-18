@@ -146,7 +146,7 @@ function SelectiveDisclosureScreen() {
     return (
         <Container>
             <Row style={{ backgroundColor: 'blue', justifyContent: "center", "margin-bottom": "8px" }}>
-            <Col md={4}>Parabellum KYC/AML Process</Col>
+            <Col md={4}>Parabellum KYC/AML</Col>
             </Row>
             <Row>
                 <Col>
