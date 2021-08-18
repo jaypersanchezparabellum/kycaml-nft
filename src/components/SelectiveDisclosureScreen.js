@@ -156,6 +156,7 @@ function SelectiveDisclosureScreen() {
                         aria-label="firstname"
                         aria-describedby="basic-addon1"
                         onChange={ (event) => { setfirstname(event.target.value) }}
+                        style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                         />
                     </InputGroup>
                 </Col>
@@ -166,6 +167,7 @@ function SelectiveDisclosureScreen() {
                         aria-label="middlename"
                         aria-describedby="basic-addon1"
                         onChange={ (event) => { setmiddlename(event.target.value) }}
+                        style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                         />
                     </InputGroup>
                 </Col>
@@ -176,11 +178,12 @@ function SelectiveDisclosureScreen() {
                         aria-label="lastname"
                         aria-describedby="basic-addon1"
                         onChange={ (event) => { setlastname(event.target.value) }}
+                        style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                         />
                     </InputGroup>
                 </Col>
                 <Col>
-                    <DatePicker className="mb-3" placeholder="Date Of Birth" selected={dob} onChange={date => setdob(date)}/>
+                    <DatePicker className="mb-3" placeholder="Date Of Birth" selected={dob} onChange={date => setdob(date)} style={{border: '10px solid rgba(0, 0, 0, 0.05)'}} />
                 </Col>
             </Row>
             <Row>
@@ -191,6 +194,7 @@ function SelectiveDisclosureScreen() {
                         aria-label="email"
                         aria-describedby="basic-addon2"
                         onChange={ (event) => { setemail(event.target.value) }}
+                        style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                         />
                         <InputGroup.Text id="basic-addon2">@example.com</InputGroup.Text>
                     </InputGroup>
@@ -202,6 +206,7 @@ function SelectiveDisclosureScreen() {
                         aria-label="mobile"
                         aria-describedby="basic-addon2"
                         onChange={ (event) => { setmobile(event.target.value) }}
+                        style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                         />
                         <InputGroup.Text id="basic-addon2">+1555-555-5555</InputGroup.Text>
                     </InputGroup>
@@ -223,6 +228,7 @@ function SelectiveDisclosureScreen() {
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setaddress1(event.target.value) }}
                             disabled = { checkbox1 === 'false' || checkbox1 === undefined }
+                            style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                             />
                         </InputGroup>
                 </Col>
@@ -234,6 +240,7 @@ function SelectiveDisclosureScreen() {
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setaddress2(event.target.value) }}
                             disabled = { checkbox1 === 'false' || checkbox1 === undefined }
+                            style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                             />
                         </InputGroup>
                 </Col>
@@ -245,6 +252,7 @@ function SelectiveDisclosureScreen() {
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setcity(event.target.value) }}
                             disabled = { checkbox1 === 'false' || checkbox1 === undefined }
+                            style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                             />
                         </InputGroup>
                 </Col>
@@ -256,6 +264,7 @@ function SelectiveDisclosureScreen() {
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setstateprovince(event.target.value) }}
                             disabled = { checkbox1 === 'false' || checkbox1 === undefined }
+                            style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                             />
                         </InputGroup>
                 </Col>
@@ -269,6 +278,7 @@ function SelectiveDisclosureScreen() {
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setcountry(event.target.value) }}
                             disabled = { checkbox1 === 'false' || checkbox1 === undefined }
+                            style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                             />
                         </InputGroup>
                 </Col>
@@ -280,6 +290,7 @@ function SelectiveDisclosureScreen() {
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setzippostal(event.target.value) }}
                             disabled = { checkbox1 === 'false' || checkbox1 === undefined }
+                            style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                             />
                         </InputGroup> 
                 </Col>
@@ -300,6 +311,7 @@ function SelectiveDisclosureScreen() {
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setcountrydob(event.target.value) }}
                             disabled = { checkbox2 === 'false' || checkbox2 === undefined }
+                            style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                             />
                         </InputGroup>
                     </Col>
@@ -311,6 +323,7 @@ function SelectiveDisclosureScreen() {
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setcountrycitizenship(event.target.value) }}
                             disabled = { checkbox2 === 'false' || checkbox2 === undefined }
+                            style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                             />
                         </InputGroup>
                     </Col>
@@ -324,6 +337,7 @@ function SelectiveDisclosureScreen() {
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setheight(event.target.value) }}
                             disabled = { checkbox2 === 'false' || checkbox2 === undefined }
+                            style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                             />
                         </InputGroup> 
                 </Col>
@@ -335,6 +349,7 @@ function SelectiveDisclosureScreen() {
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { setweight(event.target.value) }}
                             disabled = { checkbox2 === 'false' || checkbox2 === undefined }
+                            style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                             />
                         </InputGroup> 
                 </Col>
@@ -349,6 +364,7 @@ function SelectiveDisclosureScreen() {
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { seteyecolor(event.target.value) }}
                             disabled = { checkbox2 === 'false' || checkbox2 === undefined }
+                            style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                             />
                         </InputGroup>
                 </Col>
@@ -360,6 +376,7 @@ function SelectiveDisclosureScreen() {
                             aria-describedby="basic-addon2"
                             onChange={ (event) => { sethaircolor(event.target.value) }}
                             disabled = { checkbox2 === 'false' || checkbox2 === undefined }
+                            style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                             />
                         </InputGroup>
                 </Col>
