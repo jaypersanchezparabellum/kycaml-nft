@@ -409,9 +409,6 @@ function SelectiveDisclosureScreen() {
                 </Col>
             </Row>
         </Container>
-
-            
-        
     );
 
   }
