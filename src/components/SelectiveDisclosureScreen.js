@@ -16,6 +16,7 @@ import VerifyButton from "@passbase/button/react";
 import sha256 from 'crypto-js/sha256';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import Base64 from 'crypto-js/enc-base64';
+const CryptoJS = require('crypto-js');
 
 
 function SelectiveDisclosureScreen() {
@@ -85,6 +86,7 @@ function SelectiveDisclosureScreen() {
 
     const referenceUserWithKey = (key) => {
         console.log(`UUID of Passbase verification ${key}`)
+        sessionStorage.setItem('referenceuserkey', key)
         // This UUID from Passbase can be used to query, via Passbase API, for status of the verfication which must be done manually.  
         
     }
@@ -113,10 +115,13 @@ function SelectiveDisclosureScreen() {
             "haircolor":haircolor
         }
         console.log(`plain text metadata ${JSON.stringify(metadata)}`)
-        const hashDigest = sha256(metadata);
+        /*const hashDigest = sha256(metadata);
         const hmac_digest = Base64.stringify(hmacSHA512(hashDigest, pk));
-        console.log(`encrypted metadata ${hmac_digest}`);
-        sethmacdigest(hmac_digest);
+        */
+        const encodedWord = CryptoJS.enc.Utf8.parse(metadata); // encodedWord Array object
+        const encoded = CryptoJS.enc.Base64.stringify(encodedWord);
+        console.log(`encrypted metadata ${encoded}`);
+        sethmacdigest(encoded);
         
     }
     
@@ -140,6 +145,9 @@ function SelectiveDisclosureScreen() {
 
     return (
         <Container>
+            <Row style={{ backgroundColor: 'blue', justifyContent: "center", "margin-bottom": "8px" }}>
+            <Col md={4}>Parabellum KYC/AML Process</Col>
+            </Row>
             <Row>
                 <Col>
                     <InputGroup className="mb-3">
