@@ -154,7 +154,10 @@ function SelectiveDisclosureScreen() {
                         placeholder="First Name"
                         aria-label="firstname"
                         aria-describedby="basic-addon1"
-                        onChange={ (event) => { setfirstname(event.target.value) }}
+                        onChange={ (event) => { 
+                            setfirstname(event.target.value) 
+                            alert(`First Name ${event.target.value}`)
+                        }}
                         style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                         />
                     </InputGroup>
@@ -390,7 +393,7 @@ function SelectiveDisclosureScreen() {
                     <VerifyButton
                         apiKey={"TBFIEVmCNIcZ7605NBsoe9kVbM21Sdss6fXlztkkltvZIse6WA6u3NEUfXJXU3CG"}
                         onSubmitted={(identityAccessKey) => {
-                            localStorage.setItem('referenceuserkey', identityAccessKey)
+                            sessionStorage.setItem('referenceuserkey', identityAccessKey)
                         }}
                         onFinish={(identityAccessKey) => {
                             // Open new window for end user to prevent duplicate verifications
@@ -427,7 +430,7 @@ function SelectiveDisclosureScreen() {
                             sethmacdigest(metadata)
                             console.log(`hmacdigest ${JSON.stringify(hmacdigest)}::${recordId}`)
                             //store local for now 
-                            localStorage.setItem(recordId.toString(), JSON.stringify(hmacdigest));
+                            sessionStorage.setItem(recordId.toString(), JSON.stringify(hmacdigest));
                         }}
                         metaData={
                             hmacdigest
