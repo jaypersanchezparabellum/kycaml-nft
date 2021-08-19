@@ -1,5 +1,4 @@
 import React, { Component, useState, StyleSheet, Form } from 'react';
-import fs from 'fs'
 import { 
     Container, 
     Row, 
@@ -17,6 +16,9 @@ import sha256 from 'crypto-js/sha256';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import Base64 from 'crypto-js/enc-base64';
 const CryptoJS = require('crypto-js');
+const { generateKeyPair, privateEncrypt} = require("crypto");
+
+
 
 
 function SelectiveDisclosureScreen() {
@@ -114,15 +116,8 @@ function SelectiveDisclosureScreen() {
             "eyecolor":eyecolor,
             "haircolor":haircolor
         }
-        console.log(`plain text metadata ${JSON.stringify(metadata)}`)
-        /*const hashDigest = sha256(metadata);
-        const hmac_digest = Base64.stringify(hmacSHA512(hashDigest, pk));
-        */
-        const encodedWord = CryptoJS.enc.Utf8.parse(metadata); // encodedWord Array object
-        const encoded = CryptoJS.enc.Base64.stringify(encodedWord);
-        console.log(`encrypted metadata ${encoded}`);
-        sethmacdigest(encoded);
-        
+        console.log(`plain text metadata ${metadata}`)
+        sethmacdigest(metadata)
     }
     
     function handleCheckbox1(event) {
@@ -397,14 +392,16 @@ function SelectiveDisclosureScreen() {
                             // Open new window for end user to prevent duplicate verifications
                             window.location.href =("https://passbase.com/")
                         }}
-                        onError={(errorCode) => {}}
-                        onStart={() => {}}
+                        onError={(errorCode) => {
+                                console.log(`ErrorCode ${errorCode}`)
+                        }}
+                        onStart={(event) => { 
+                            saveDataSet(event)
+                        }}
                         prefillAttributes={{
                             email: {email}
                         }}
-                        metaData={
-                            hmacdigest
-                        }
+                        
                     />
                 </Col>
             </Row>
