@@ -1,5 +1,4 @@
 import React, { Component, useState, StyleSheet, Form } from 'react';
-import fs from 'fs'
 import { 
     Container, 
     Row, 
@@ -13,16 +12,17 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 //import {PassbaseClient, PassbaseConfiguration} from "@passbase/node";
 import VerifyButton from "@passbase/button/react";
-import sha256 from 'crypto-js/sha256';
+//encryption functions
+/*import sha256 from 'crypto-js/sha256';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import Base64 from 'crypto-js/enc-base64';
-const CryptoJS = require('crypto-js');
+const CryptoJS = require('crypto-js');*/
+const crypto = require("crypto");
+const fs = require("fs");
 
 
 function SelectiveDisclosureScreen() {
 
-    const secretkey = "sF9N2HwfTCXdYMNwA3i7FYdS06xa0iX1AF8o72tytCFLyolvGxU5JGkkhWatBqDFHRUbaBREMghQVYZZyZVOdY9OnTkUFNvplArVjBDPORwa2tJLNco10zZ24TQa4go5"
-    const apikey = "TBFIEVmCNIcZ7605NBsoe9kVbM21Sdss6fXlztkkltvZIse6WA6u3NEUfXJXU3CG"
     const pk = `-----BEGIN RSA PRIVATE KEY-----
     Proc-Type: 4,ENCRYPTED
     DEK-Info: DES-EDE3-CBC,1BA03E7DD91084B7
@@ -92,6 +92,7 @@ function SelectiveDisclosureScreen() {
     }
 
     function saveDataSet(event) {
+        let recordId = Math.floor((Math.random() * 100000) + 1);;
         const metadata = {
             "firstname":firstname,
             "middlename":middlename,
@@ -114,15 +115,13 @@ function SelectiveDisclosureScreen() {
             "eyecolor":eyecolor,
             "haircolor":haircolor
         }
-        console.log(`plain text metadata ${JSON.stringify(metadata)}`)
-        /*const hashDigest = sha256(metadata);
-        const hmac_digest = Base64.stringify(hmacSHA512(hashDigest, pk));
-        */
-        const encodedWord = CryptoJS.enc.Utf8.parse(metadata); // encodedWord Array object
-        const encoded = CryptoJS.enc.Base64.stringify(encodedWord);
-        console.log(`encrypted metadata ${encoded}`);
-        sethmacdigest(encoded);
-        
+        sethmacdigest(metadata)
+        console.log(`hmacdigest ${JSON.stringify(hmacdigest)}::${recordId}`)
+        //store local for now 
+        localStorage.setItem(recordId.toString(), JSON.stringify(hmacdigest));
+        //encrypt to Base64 with PEM
+        //const pkey = crypto.createPrivateKey(pk); //default format PEM
+        //const encrypted_metadata = crypto.privateEncrypt(pkey, Buffer.from(JSON.stringify(metadata))).toString('base64');
     }
     
     function handleCheckbox1(event) {
