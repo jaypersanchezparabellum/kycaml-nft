@@ -92,7 +92,7 @@ function SelectiveDisclosureScreen() {
     }
 
     function saveDataSet(event) {
-        let recordId = Math.floor((Math.random() * 100000) + 1);;
+        let recordId = Math.floor((Math.random() * 100000) + 1);
         const metadata = {
             "firstname":firstname,
             "middlename":middlename,
@@ -390,16 +390,44 @@ function SelectiveDisclosureScreen() {
                     <VerifyButton
                         apiKey={"TBFIEVmCNIcZ7605NBsoe9kVbM21Sdss6fXlztkkltvZIse6WA6u3NEUfXJXU3CG"}
                         onSubmitted={(identityAccessKey) => {
-                            referenceUserWithKey(identityAccessKey)
+                            localStorage.setItem('referenceuserkey', identityAccessKey)
                         }}
                         onFinish={(identityAccessKey) => {
                             // Open new window for end user to prevent duplicate verifications
-                            window.location.href =("https://passbase.com/")
+                            window.location.href =("https://kycaml-nft.parabellum.io/")
                         }}
-                        onError={(errorCode) => {}}
-                        onStart={() => {}}
-                        prefillAttributes={{
-                            email: {email}
+                        onError={(errorCode) => {
+                            alert(`Verification Error: ${errorCode}`)
+                        }}
+                        onStart={() => {
+                            
+                            let recordId = Math.floor((Math.random() * 100000) + 1);
+                            const metadata = {
+                                "firstname":firstname,
+                                "middlename":middlename,
+                                "lastname":lastname,
+                                "dob":dob,
+                                "selectedinclusion1":checkbox1,
+                                "email":email,
+                                "mobile":mobile,
+                                "address1":address1,
+                                "address2":address2,
+                                "city":city,
+                                "stateprovince":stateprovince,
+                                "country":country,
+                                "zippostal":zippostal,
+                                "countrydob":countrydob,
+                                "selectedinclusion2":checkbox2,
+                                "countrycitizenship":countrycitizenship,
+                                "height":height,
+                                "weight":weight,
+                                "eyecolor":eyecolor,
+                                "haircolor":haircolor
+                            }
+                            sethmacdigest(metadata)
+                            console.log(`hmacdigest ${JSON.stringify(hmacdigest)}::${recordId}`)
+                            //store local for now 
+                            localStorage.setItem(recordId.toString(), JSON.stringify(hmacdigest));
                         }}
                         metaData={
                             hmacdigest
