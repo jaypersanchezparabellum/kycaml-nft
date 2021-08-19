@@ -156,7 +156,7 @@ function SelectiveDisclosureScreen() {
                         aria-describedby="basic-addon1"
                         onChange={ (event) => { 
                             setfirstname(event.target.value) 
-                            alert(`First Name ${event.target.value}`)
+                            //alert(`First Name ${event.target.value}`)
                         }}
                         style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                         />
