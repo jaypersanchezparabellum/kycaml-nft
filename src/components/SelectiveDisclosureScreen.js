@@ -393,7 +393,7 @@ function SelectiveDisclosureScreen() {
                     <VerifyButton
                         apiKey={"TBFIEVmCNIcZ7605NBsoe9kVbM21Sdss6fXlztkkltvZIse6WA6u3NEUfXJXU3CG"}
                         onSubmitted={(identityAccessKey) => {
-                            sessionStorage.setItem('referenceuserkey', identityAccessKey)
+                            localStorage.setItem('referenceuserkey', identityAccessKey)
                         }}
                         onFinish={(identityAccessKey) => {
                             // Open new window for end user to prevent duplicate verifications
@@ -430,7 +430,7 @@ function SelectiveDisclosureScreen() {
                             sethmacdigest(metadata)
                             console.log(`hmacdigest ${JSON.stringify(hmacdigest)}::${recordId}`)
                             //store local for now 
-                            sessionStorage.setItem(recordId.toString(), JSON.stringify(hmacdigest));
+                            localStorage.setItem(recordId.toString(), JSON.stringify(hmacdigest));
                         }}
                         metaData={
                             hmacdigest
