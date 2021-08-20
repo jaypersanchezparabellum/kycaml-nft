@@ -12,19 +12,24 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 //import {PassbaseClient, PassbaseConfiguration} from "@passbase/node";
 import VerifyButton from "@passbase/button/react";
-import sha256 from 'crypto-js/sha256';
+//encryption functions
+/*import sha256 from 'crypto-js/sha256';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import Base64 from 'crypto-js/enc-base64';
+<<<<<<< HEAD
 const CryptoJS = require('crypto-js');
 const { generateKeyPair, privateEncrypt} = require("crypto");
 
 
+=======
+const CryptoJS = require('crypto-js');*/
+const crypto = require("crypto");
+const fs = require("fs");
+>>>>>>> main
 
 
 function SelectiveDisclosureScreen() {
 
-    const secretkey = "sF9N2HwfTCXdYMNwA3i7FYdS06xa0iX1AF8o72tytCFLyolvGxU5JGkkhWatBqDFHRUbaBREMghQVYZZyZVOdY9OnTkUFNvplArVjBDPORwa2tJLNco10zZ24TQa4go5"
-    const apikey = "TBFIEVmCNIcZ7605NBsoe9kVbM21Sdss6fXlztkkltvZIse6WA6u3NEUfXJXU3CG"
     const pk = `-----BEGIN RSA PRIVATE KEY-----
     Proc-Type: 4,ENCRYPTED
     DEK-Info: DES-EDE3-CBC,1BA03E7DD91084B7
@@ -94,6 +99,7 @@ function SelectiveDisclosureScreen() {
     }
 
     function saveDataSet(event) {
+        let recordId = Math.floor((Math.random() * 100000) + 1);
         const metadata = {
             "firstname":firstname,
             "middlename":middlename,
@@ -116,8 +122,18 @@ function SelectiveDisclosureScreen() {
             "eyecolor":eyecolor,
             "haircolor":haircolor
         }
+<<<<<<< HEAD
         console.log(`plain text metadata ${metadata}`)
         sethmacdigest(metadata)
+=======
+        sethmacdigest(metadata)
+        console.log(`hmacdigest ${JSON.stringify(hmacdigest)}::${recordId}`)
+        //store local for now 
+        localStorage.setItem(recordId.toString(), JSON.stringify(hmacdigest));
+        //encrypt to Base64 with PEM
+        //const pkey = crypto.createPrivateKey(pk); //default format PEM
+        //const encrypted_metadata = crypto.privateEncrypt(pkey, Buffer.from(JSON.stringify(metadata))).toString('base64');
+>>>>>>> main
     }
     
     function handleCheckbox1(event) {
@@ -141,7 +157,7 @@ function SelectiveDisclosureScreen() {
     return (
         <Container>
             <Row style={{ backgroundColor: 'blue', justifyContent: "center", "margin-bottom": "8px" }}>
-            <Col md={4}>Parabellum KYC/AML</Col>
+            <Col md={4}>Parabellum KYC/AML Process</Col>
             </Row>
             <Row>
                 <Col>
@@ -150,7 +166,10 @@ function SelectiveDisclosureScreen() {
                         placeholder="First Name"
                         aria-label="firstname"
                         aria-describedby="basic-addon1"
-                        onChange={ (event) => { setfirstname(event.target.value) }}
+                        onChange={ (event) => { 
+                            setfirstname(event.target.value) 
+                            //alert(`First Name ${event.target.value}`)
+                        }}
                         style={{border: '10px solid rgba(0, 0, 0, 0.05)'}}
                         />
                     </InputGroup>
@@ -386,11 +405,14 @@ function SelectiveDisclosureScreen() {
                     <VerifyButton
                         apiKey={"TBFIEVmCNIcZ7605NBsoe9kVbM21Sdss6fXlztkkltvZIse6WA6u3NEUfXJXU3CG"}
                         onSubmitted={(identityAccessKey) => {
-                            referenceUserWithKey(identityAccessKey)
+                            localStorage.setItem('referenceuserkey', identityAccessKey)
                         }}
                         onFinish={(identityAccessKey) => {
                             // Open new window for end user to prevent duplicate verifications
-                            window.location.href =("https://passbase.com/")
+                            window.location.href =("https://kycaml-nft.parabellum.io/")
+                        }}
+                        onError={(errorCode) => {
+                            alert(`Verification Error: ${errorCode}`)
                         }}
                         onError={(errorCode) => {
                                 console.log(`ErrorCode ${errorCode}`)
