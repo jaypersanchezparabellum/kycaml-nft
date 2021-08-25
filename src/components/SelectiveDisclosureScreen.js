@@ -48,6 +48,7 @@ DXFQZHIBi/I2Am03RZR1Rm6MUIY9mirrmGG00IeKsuazwvdMkGLgaxE=
 
 
 function SelectiveDisclosureScreen() {
+    let xdata;
 
     // Declare a new state variable, which we'll call "count"
     const [firstname, setfirstname] = useState();
@@ -430,13 +431,14 @@ function SelectiveDisclosureScreen() {
                                 "eyecolor":eyecolor,
                                 "haircolor":haircolor
                             }
-                            //alert(`MetaData ${JSON.stringify(metadata)}`)
+                            
                             const hmacDigest = Base64.stringify(hmacSHA512(JSON.stringify(metadata), pk));
+                            xdata = hmacDigest
                             sethmacdigest(hmacDigest)
-                            //alert(hmacDigest);
+                            alert(`MetaData ${JSON.stringify(metadata)}::${xdata}`)
                         }}
                         metaData={{
-                            "metadata":hmacdigest
+                            "metadata":xdata
                         }}
                         
                         
