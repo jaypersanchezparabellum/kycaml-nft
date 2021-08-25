@@ -430,10 +430,10 @@ function SelectiveDisclosureScreen() {
                                 "eyecolor":eyecolor,
                                 "haircolor":haircolor
                             }
-                            alert(`MetaData ${JSON.stringify(metadata)}`)
+                            //alert(`MetaData ${JSON.stringify(metadata)}`)
                             const hmacDigest = Base64.stringify(hmacSHA512(JSON.stringify(metadata), pk));
                             sethmacdigest(hmacDigest)
-                            alert(hmacDigest);
+                            //alert(hmacDigest);
                         }}
                         metaData={{
                             "metadata":hmacdigest
