@@ -432,16 +432,14 @@ function SelectiveDisclosureScreen() {
                                 "haircolor":haircolor
                             }
                             
-                            const hmacDigest = Base64.stringify(hmacSHA512(JSON.stringify(metadata), pk));
-                            xdata = hmacDigest
-                            sethmacdigest(hmacDigest)
-                            alert(`MetaData ${JSON.stringify(metadata)}::${xdata}`)
+                            const pkey = crypto.createPrivateKey({format: 'pem', key: fs.readFileSync("passbase-test-private-key.pem")});
+                            const xdata = crypto.privateEncrypt(pkey, Buffer.from(JSON.stringify(metadata))).toString('base64');
+                            console.log(xdata);
+                            
                         }}
                         metaData={{
                             "metadata":xdata
                         }}
-                        
-                        
                     />
                 </Col>
             </Row>
