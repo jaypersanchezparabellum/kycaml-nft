@@ -8,6 +8,7 @@ import {
     FormControl, 
     Dropdown
 } from 'react-bootstrap';
+import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import VerifyButton from "@passbase/button/react";
@@ -17,33 +18,9 @@ import hmacSHA512 from 'crypto-js/hmac-sha512';
 import Base64 from 'crypto-js/enc-base64';
 const crypto = require("crypto");
 const fs = require("fs");
-const pk = `-----BEGIN RSA PRIVATE KEY-----
-MIIEpQIBAAKCAQEAsSu/EXjymgTfNssF+JIHJWaJ9Sz7eNMCMJrw8pVLCB3DCvt5
-Jft6WzwAzV2TuCuI1ksXrUojW6ByC5SUfKbo1CagSeGTVDWXY16LIElzXXhZjnkk
-cmHSwKHqnWHf1iuHkinfW+ZpHRV1GospZJyVkRPs9DUGHckD+Tb8o5n0KIwAePay
-GMluEt7qcqKbY/VAn/9SseXbkPHdYvYq+PSvS+90Fmptz0TLZAS1CvCouocsz1TA
-m7stgyFQz85ghJaa8cT7/4rTs31D0tcTMXeVctmUB2ni7nUOxWwVrMQvjYPoRO3Y
-R5/bBfoY1irhnUk0dMe8eXJrSd07YZ+56gBySQIDAQABAoIBABq6bc3WAEuKFp6u
-jE0OwrM6v+9UBPAabUcl6Nm/+hzUWJtsir9XLANdjwVsa5+qOa+SjpTfDWyCTRJA
-LRKNH6z50s6ykEZw+1DLb5PEYPol8OTUk9IJvgC/rKRnopwt3vsHBCJaJVt05EDH
-48vA77N+XQ4Ofci6jbXoPL71t+bxz7lsLQZ9bo8JS8L65zAjloVBFn30+exbH+iS
-8bbR3i+FOmEtZCo+n4AlLqsPeQunmdDeRRurYDr05Cpas/mUGPDIjtiKvDFVds9O
-N6BoM+2LiFwWpBUQctLTBHFENMHkOpEm+dGufMmt1EGeSDRzLdG2+YU9RecPtQle
-VeThFG0CgYEA4P8lFIskHsJAqtZB3084RTOmm6NwWFhtpeO6BMX+NLalaqK0Af0v
-CEeegdcwCmsDTP+06e7YWQyxVYMiEax6NMKz0hyhPk+NsdUsXic6QZyXCRO+69Ar
-8r7bTpvTGvApPOPVUNt5CjdbbVgP808y7fvlQ/QosQHQacPXa4Iqw2cCgYEAyZWG
-xjab4jeitQ1u/0VsDPuETIHgRVQxxJfwt3Zsf0J5WGNUGSEQGShyjjv06y6xRxWc
-HFP1WIGYD2lkMEicwttEBri+h/NJO4qgF83WKaoZ5NW1yLNV4J75MgwH/q5dr9/t
-9lrs1HrDfaaw2oEPQF1DOax+pf+3XukEREaqvs8CgYEAyAmwUvp+S6aTThAeEsdh
-FQ2d9EQ0TyeXnOTB7xqFLyKwIQW1GwuZ9DeQsom6WZjZH2080LucuFdzlr523NXG
-9P+iVo1Dwp2CMfiAcNlZjxoEonpexVOYr0KGwvYBk7KwR0Wc0z29+JpM/ANOcxkY
-A8RwCqGaR/1/6XjIHvpkwMMCgYEAl+1S6zajG8aUoWHjgw7eVZaGamcEERxYefON
-n6foM6106RHLgzjw+hUK6Xn0p//D6nA1/P+mDLN3WD41HVLMmutIhMxeBPZt/isH
-Z4lh3HrwExCidgX7NlR6Oabpq5/cyj26Cg8TKTzw81VbOwND7F2d2ezQcumcWTLD
-XXXpH+8CgYEAplllksU9Wa6f8qDZ5s8IytJ042uoUmgsit53VnFYRL8NxaNgU+sH
-viYEArfwfzzXslo5QW91pPiwNsNzEKfJSEVBZD0IXOQE0cMUDWiqpeDeLcC3Mba+
-DXFQZHIBi/I2Am03RZR1Rm6MUIY9mirrmGG00IeKsuazwvdMkGLgaxE=
------END RSA PRIVATE KEY-----`
+
+
+
 
 
 
@@ -86,9 +63,9 @@ function SelectiveDisclosureScreen() {
         
     }
 
-    function saveDataSet(event) {
+    function saveDataSet() {
         alert(JSON.stringify(state))
-        const metadata = {
+        /*const metadata = {
             "firstname":firstname,
             "middlename":middlename,
             "lastname":lastname,
@@ -109,11 +86,20 @@ function SelectiveDisclosureScreen() {
             "weight":weight,
             "eyecolor":eyecolor,
             "haircolor":haircolor
-        }
-        const hmacDigest = Base64.stringify(hmacSHA512(metadata, pk));
-        console.log(hmacDigest);
-        /*const pkey = crypto.createPrivateKey({format: 'pem', key: PassbaseTestPrivateKey});
-        const encrypted_metadata = crypto.privateEncrypt(pkey, Buffer.from(JSON.stringify(metadata))).toString('base64');*/
+        }*/
+        let uuid = '83155ef0-b92b-4bef-9ddb-fffec69fc8f0'
+        //axios connect
+        axios.post('http://127.0.0.1:8080/identitykey', {
+            uuid:uuid
+        })
+          .then(function (response) {
+              alert(`save data ${response}`);
+            console.log(response);
+        })
+          .catch(function (error) {
+              console.log(error)
+            alert(`save data error ${error}`);
+        });
     }
     
     function handleCheckbox1(event) {
@@ -391,13 +377,14 @@ function SelectiveDisclosureScreen() {
 
             <Row>
                 <Col>
-                    <Button variant="primary" color="accent" onClick={saveDataSet} >Save Data Set</Button>
+                    <Button variant="primary" color="accent" onClick={ saveDataSet }>Save Data Set</Button>
                 </Col>
                 <Col>
                     <VerifyButton
                         apiKey={"TBFIEVmCNIcZ7605NBsoe9kVbM21Sdss6fXlztkkltvZIse6WA6u3NEUfXJXU3CG"}
                         onSubmitted={(identityAccessKey) => {
                             localStorage.setItem('referenceuserkey', identityAccessKey)
+                            //POST to 'identitykey' endpoint
                         }}
                         onFinish={(identityAccessKey) => {
                             // Open new window for end user to prevent duplicate verifications
@@ -414,27 +401,9 @@ function SelectiveDisclosureScreen() {
                                 "middlename":middlename,
                                 "lastname":lastname,
                                 "dob":dob,
-                                "selectedinclusion1":checkbox1,
-                                "email":email,
-                                "mobile":mobile,
-                                "address1":address1,
-                                "address2":address2,
-                                "city":city,
-                                "stateprovince":stateprovince,
-                                "country":country,
-                                "zippostal":zippostal,
-                                "countrydob":countrydob,
-                                "selectedinclusion2":checkbox2,
-                                "countrycitizenship":countrycitizenship,
-                                "height":height,
-                                "weight":weight,
-                                "eyecolor":eyecolor,
-                                "haircolor":haircolor
                             }
+                            //POST to '/nftid' endpoint
                             
-                            const pkey = crypto.createPrivateKey({format: 'pem', key: fs.readFileSync("passbase-test-private-key.pem")});
-                            const xdata = crypto.privateEncrypt(pkey, Buffer.from(JSON.stringify(metadata))).toString('base64');
-                            console.log(xdata);
                             
                         }}
                         metaData={{
